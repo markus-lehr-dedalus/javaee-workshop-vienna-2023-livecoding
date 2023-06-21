@@ -11,6 +11,7 @@ public class FullRoomRepresentationModel {
     private long id;
     @Schema(description = "Booking name of the room.")
     private String name;
+    private String city;
     private String roomType;
     private int numberOfSeats;
     private int availableFruits;
@@ -19,6 +20,7 @@ public class FullRoomRepresentationModel {
         return new FullRoomRepresentationModel()
                 .setId(room.getId())
                 .setName(room.getName())
+                .setCity(room.getCity())
                 .setRoomType(room.getRoomType().toString())
                 .setNumberOfSeats(room.getNumberOfSeats())
                 .setAvailableFruits(room.getFruitBowl().getAvailableFruits());

@@ -19,6 +19,7 @@ public class Room extends PanacheEntityBase {
     private RoomType roomType;
     private Integer numberOfSeats;
     private String name;
+    private String city;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fruit_bowl")
     private FruitBowl fruitBowl;
@@ -27,6 +28,7 @@ public class Room extends PanacheEntityBase {
         return new Room()
                 .setRoomType(RoomType.fromString(roomCreationModel.getRoomType()))
                 .setName(roomCreationModel.getName())
+                .setCity(roomCreationModel.getCity())
                 .setNumberOfSeats(roomCreationModel.getNumberOfSeats())
                 .setFruitBowl(new FruitBowl().setAvailableFruits(4));
     }

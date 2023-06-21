@@ -15,6 +15,10 @@ public class RoomCreationModel {
     @NotBlank
     @Size(min = 3)
     private String name;
+    @NotBlank
+    @Size(min = 2)
+    @Schema(example = "Vienna")
+    private String city;
     @Schema(enumeration = {"meeting", "relaxation"})
     private String roomType;
     @Min(2)
