@@ -1,10 +1,14 @@
 package com.dedalus.resource;
 
 import com.dedalus.entity.Room;
+import com.dedalus.model.AirQuality;
 import com.dedalus.model.room.FullRoomRepresentationModel;
 import com.dedalus.model.room.RoomCreationModel;
 import com.dedalus.model.room.RoomRepresentationModel;
+import com.dedalus.service.ApiNinjaService;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -17,7 +21,11 @@ import java.util.stream.Stream;
 @Transactional()
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Slf4j
 public class RoomResource {
+    @Inject
+    ApiNinjaService apiNinjaService;
+
     @GET
     public List<RoomRepresentationModel> getRooms() {
         Stream<Room> rooms = Room.streamAll();
@@ -30,7 +38,10 @@ public class RoomResource {
     @Path("{roomId}")
     public FullRoomRepresentationModel getRoom(@PathParam("roomId") Long roomId) {
         Room room = Room.findById(roomId);
-        return FullRoomRepresentationModel.fromEntity(room);
+        AirQuality airQuality = apiNinjaService.getAirQuality(room.getCity());
+        return FullRoomRepresentationModel
+                .fromEntity(room)
+                .setAirQuality(airQuality);
     }
 
     @POST

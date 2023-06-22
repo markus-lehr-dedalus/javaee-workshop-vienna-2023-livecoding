@@ -1,6 +1,7 @@
 package com.dedalus.model.room;
 
 import com.dedalus.entity.Room;
+import com.dedalus.model.AirQuality;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -15,6 +16,7 @@ public class FullRoomRepresentationModel {
     private String roomType;
     private int numberOfSeats;
     private int availableFruits;
+    private AirQuality airQuality;
 
     public static FullRoomRepresentationModel fromEntity(Room room) {
         return new FullRoomRepresentationModel()
