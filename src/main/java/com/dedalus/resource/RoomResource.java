@@ -6,7 +6,9 @@ import com.dedalus.model.room.FullRoomRepresentationModel;
 import com.dedalus.model.room.RoomCreationModel;
 import com.dedalus.model.room.RoomRepresentationModel;
 import com.dedalus.service.ApiNinjaService;
+import com.dedalus.service.ImportantService;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.faulttolerance.Retry;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -25,6 +27,9 @@ import java.util.stream.Stream;
 public class RoomResource {
     @Inject
     ApiNinjaService apiNinjaService;
+
+    @Inject
+    ImportantService importantService;
 
     @GET
     public List<RoomRepresentationModel> getRooms() {
@@ -45,7 +50,9 @@ public class RoomResource {
     }
 
     @POST
+    @Retry(maxRetries = 5)
     public FullRoomRepresentationModel createRoom(@Valid RoomCreationModel room) {
+        importantService.slowMethodThatCouldFail();
         Room roomEntity = Room.fromCreationModel(room);
         roomEntity.persistAndFlush();
         return FullRoomRepresentationModel.fromEntity(roomEntity);
